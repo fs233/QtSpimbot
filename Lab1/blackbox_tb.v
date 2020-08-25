@@ -1,6 +1,6 @@
 module blackbox_test;
   reg z, k, r;
-	wire a;
+  wire a;
   blackbox b1(a, z, k, r);
   initial begin
 		
@@ -20,7 +20,7 @@ module blackbox_test;
   end
 	
   initial
-		  $monitor("At time %2t, a = %d b = %d s = %d c = %d",
-                 $time, a, b, s, c); 
+	  $monitor("At time %2t, a = %d z = %d k = %d r = %d",
+                 $time, a, z, k, r); 
 
 endmodule // blackbox_test
