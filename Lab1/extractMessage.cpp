@@ -18,6 +18,7 @@ unsigned char *extractMessage(const unsigned char *message_in, int length) {
     for (int i = 0; i < length; i++) {
         message_out[i] = 0;
     }
+    
     char output;
     char temp;
     char last;
