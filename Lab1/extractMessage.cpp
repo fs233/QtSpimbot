@@ -18,8 +18,17 @@ unsigned char *extractMessage(const unsigned char *message_in, int length) {
     for (int i = 0; i < length; i++) {
         message_out[i] = 0;
     }
-
-    // TODO: write your code here
-
+    char output;
+    char temp;
+    char last;
+    for(int j = 0; j <length; j++){
+       for(int i = 7; i>=0 ;i--){
+        temp = message_in[i+8*(j/8)]>>(j%8);
+        last = temp & 0b1;
+        output = output << 1;
+        output = output|last;
+      }
+    message_out[j] = output;
+    }
     return message_out;
 }
