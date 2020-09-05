@@ -1,6 +1,6 @@
 module logicunit_test;
     // exhaustively test your logic unit implementation by adapting mux4_tb.v
-	 reg A = 0;
+	reg A = 0;
     always #1 A = !A;
     reg B = 0;
     always #2 B = !B;

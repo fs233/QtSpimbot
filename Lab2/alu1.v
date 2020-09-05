@@ -10,6 +10,7 @@ module full_adder(sum, cout, a, b, cin);
     or  o1(cout, partial_c1, partial_c2);
 endmodule // full_adder
 
+
 `define ALU_ADD    3'h2
 `define ALU_SUB    3'h3
 `define ALU_AND    3'h4
@@ -22,7 +23,18 @@ module alu1(out, carryout, A, B, carryin, control);
     output      out, carryout;
     input       A, B, carryin;
     input [2:0] control;
-
     // add code here!!!
+	wire wad, wsb, warith, wlog, couta, couts, cout1, cout2, Bin;
+	
+	not n0(Bin, B);
+	full_adder ad1(wad, couta, A, B, carryin);
+	full_adder sb1(wsb, couts, A, Bin, carryin);
+	mux2 m0(warith, wad, wsb, control[0]);
+	mux2 m1(cout1, couta, couts, control[0]);
+	logicunit l0(wlog, A, B, control[1:0]);
+	mux2 m2(out, warith, wlog, control[2]);	
+	assign cout2 = 1'h0;
+	mux2 m3(carryout, cout1, cout2, control[2]);
+	
 
 endmodule // alu1
