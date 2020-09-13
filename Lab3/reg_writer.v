@@ -10,7 +10,7 @@ module reg_writer(done, regnum, direction, go, clock, reset);
 
 
 	wire sGarbage_next = sGarbage & ~go|reset;
-	wire sStart_next = (sStart & go | sGarbage & go | sDone & go)&~reset;
+	wire sStart_next = (sStart & go | sGarbage & go | sDone & go)& ~reset;
 
 	wire sUp1_next = sStart & ~reset & direction & ~go;
 	wire sUp2_next = sUp1 & ~reset;
