@@ -14,5 +14,13 @@ module mips_decode(rd_src, writeenable, alu_src2, alu_op, except, opcode, funct)
     output [1:0] alu_src2;
     output [2:0] alu_op;
     input  [5:0] opcode, funct;
-
+	assign except=!((opcode==`OP_OTHER0 &(funct==`OP0_ADD|funct==`OP0_AND|funct==`OP0_SUB|funct==`OP0_XOR|funct==`OP0_NOR|funct==`OP0_OR))|opcode==`OP_ANDI|opcode==`OP_ADDI|opcode==`OP_ORI|opcode==`OP_XORI);
+	assign rd_src = !(opcode==`OP_OTHER0);
+	assign alu_src2[0] = opcode==`OP_ADDI;
+	assign alu_src2[1] = !((opcode ==`OP_OTHER0 | opcode ==`OP_ADDI));
+	assign alu_op[0] = (funct==`OP0_OR|opcode==`OP_ORI)|(funct==`OP0_XOR|opcode==`OP_XORI)|funct==`OP0_SUB;
+	assign alu_op[1] = !((funct==`OP0_AND|opcode==`OP_ANDI)|(funct==`OP0_OR|opcode==`OP_ORI));
+	assign alu_op[2] = !((funct==`OP0_ADD|opcode==`OP_ADDI)|funct==`OP0_SUB);
+	
+	assign writeenable = !except;
 endmodule // mips_decode
