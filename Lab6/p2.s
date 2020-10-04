@@ -235,7 +235,7 @@ if5:
 	lw   $s2, 8($s0)                  #ydir 
 	mul  $s2, $s2, $s1                #multiply x and y
 	bge  $s2, 0, return               #return 
-	li   $s3, '\'					  #s3 is the char
+	li   $s3, '\\'					  #s3 is the char
 	sw   $s3, 0($s0)                  #char store in the place
 	j    return
 
