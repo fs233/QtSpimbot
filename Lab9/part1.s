@@ -48,6 +48,226 @@ main:
 	    mtc0    $t4, $12
 
 #Fill in your code here
+		lw      $t3, 0xffff001c($zero)    
+		add     $t3, $t3, 24000
+loop1:
+	    lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next1
+		jal     go_right
+		j       loop1
+		
+next1:	
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 56000
+loop2:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next2
+		jal     go_down
+		j       loop2
+next2:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 56000
+loop3:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next3
+		jal     go_right
+		j       loop3
+next3:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 64000	
+loop4:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next4
+		jal     go_down
+		j       loop4
+next4:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 24000
+loop5:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next5
+		jal     go_right
+		j       loop5	
+next5:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 8000
+loop6:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next6
+		jal     go_down
+		j       loop6	
+next6:
+		li      $t0, 1
+		sw      $t0, 0xffff00f4($0)
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 32000
+loop7:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next7
+		jal     go_down
+		j       loop7
+next7:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 16000
+loop8:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next8
+		jal     go_right
+		j       loop8
+next8:	
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 48000
+loop9:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next9
+		jal     go_down
+		j       loop9
+next9:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 40000
+loop10:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next10
+		jal     go_left
+		j       loop10
+next10:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 24000
+loop11:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next11
+		jal     go_down
+		j       loop11
+next11:
+		li      $t0, 1
+		sw      $t0, 0xffff00f4($0)
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 32000
+loop12:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next12
+		jal     go_right
+		j       loop12
+next12:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 24000
+loop13:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next13
+		jal     go_up
+		j       loop13
+next13:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 8000
+loop14:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next14
+		jal     go_right
+		j       loop14
+next14:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 32000
+loop15:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next15
+		jal     go_up
+		j       loop15
+next15:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 96000
+loop16:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next16
+		jal     go_right
+		j       loop16
+next16:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 8000
+loop17:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next17
+		jal     go_down
+		j       loop17
+next17:
+		li      $t0, 1
+		sw      $t0, 0xffff00f4($0)
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 16000
+loop18:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next18
+		jal     go_down
+		j       loop18
+next18:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 32000
+loop19:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next19
+		jal     go_right
+		j       loop19
+next19:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 64000
+loop20:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next20
+		jal     go_down
+		j       loop20
+next20:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 32000
+loop21:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next21
+		jal     go_right
+		j       loop21
+next21:
+		lw      $t3, 0xffff001c($zero)   
+		add     $t3, $t3, 8000
+loop22:
+		lw      $t4, 0xffff001c($zero)
+		bge     $t4, $t3, next22
+		jal     go_down
+		j       loop22
+next22:
+		li      $t0, 1
+		sw      $t0, 0xffff00f4($0)
+		j		infinite
+
+go_right:		
+		li      $t0, 0
+		sw      $t0, 0xffff0014($zero)
+		li      $t1, 1
+		sw      $t1, 0xffff0018($zero)
+		li      $t2, 10
+		sw      $t2, 0xffff0010($zero)
+		jr      $ra	
+go_left:		
+		li      $t0, 0
+		sw      $t0, 0xffff0014($zero)
+		li      $t1, 1
+		sw      $t1, 0xffff0018($zero)
+		li      $t2, -10
+		sw      $t2, 0xffff0010($zero)
+		jr      $ra	
+go_down:
+		li      $t0, 90
+		sw      $t0, 0xffff0014($zero)
+		li      $t1, 1
+		sw      $t1, 0xffff0018($zero)
+		li      $t2, 10
+		sw      $t2, 0xffff0010($zero)
+		jr      $ra
+go_up:
+		li      $t0, 90
+		sw      $t0, 0xffff0014($zero)
+		li      $t1, 1
+		sw      $t1, 0xffff0018($zero)
+		li      $t2, -10
+		sw      $t2, 0xffff0010($zero)
+		jr      $ra
+
 
 infinite:
         j       infinite              # Don't remove this! If this is removed, then your code will not be graded!!!
