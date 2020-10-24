@@ -44,9 +44,6 @@ next_col:
 
         jr      $ra
 
-
-
-
 # // main solve function, recurse using backtrack
 # // puzzle is the puzzle question struct
 # // solution is an array that the function will fill the answer in
