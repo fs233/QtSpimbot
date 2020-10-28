@@ -10,8 +10,9 @@ module pipelined_adding_machine(out, clk, reset);
     adder30 Adder(next_index, index, 30'h1);
 
     adding_machine_memory rom(data, index);
-    alu32 alu(next_data, , `ALU_ADD, out, data);
+    alu32 alu(next_data, , `ALU_ADD, out, data_2);
 
     register #(32, 32'd0) Register(out, next_data, clk, /* enable */1'b1, reset);
+    register #(32, 32'd0) PipelinedReg(data_2, data, clk, /* enable */1'b1, reset);
 
 endmodule // pipelined_machine
