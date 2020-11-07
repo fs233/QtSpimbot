@@ -73,11 +73,10 @@ uint32_t CacheSimulator::read_access(uint32_t address) const {
    * 3. Update the `last_used_time` for the `block`.
    * 4. Use `read_word_at_offset` to return the data at `address`.
    */
-  Cache::Block* block;
-  if(find_block(address)==NULL){
+  Cache::Block* block = find_block(address);
+  if(block==NULL){
     block = bring_block_into_cache(address);
   }
-  block = find_block(address);
   _use_clock++;
   block->set_last_used_time(_use_clock.get_count());
   return block->read_word_at_offset(extract_block_offset(address, _cache->get_config()));
@@ -97,8 +96,8 @@ void CacheSimulator::write_access(uint32_t address, uint32_t word) const {
    * 5. a. If the policy is write back, mark `block` as dirty.
    *    b. Otherwise, write `word` to `address` in memory.
    */
-  Cache::Block* block;
-  if(find_block(address)==NULL){
+  Cache::Block* block = find_block(address);
+  if(block==NULL){
     if(_policy.is_write_allocate()){
       block = bring_block_into_cache(address);
     }else{
@@ -106,7 +105,6 @@ void CacheSimulator::write_access(uint32_t address, uint32_t word) const {
       return;
     }
   }
-  block = find_block(address);
   _use_clock++;
   block->set_last_used_time(_use_clock.get_count());
   block->write_word_at_offset(word, extract_block_offset(address, _cache->get_config()));
