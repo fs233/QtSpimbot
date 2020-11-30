@@ -51,6 +51,50 @@ main:
 
 #Fill in your code here
 
+#spawn BASIC minibot
+        la      $t0, $t0
+        sw      $t0, 0xffff2010($zero)
+        li      $t1, 2
+        blt     $t0, $t1, back 
+        li      $t0, 0
+        sw      $t0, 0xffff00dc($zero)
+
+#spawn adv minibots
+        li      $t0, 1
+        sw      $t0, 0xffff00dc($zero)
+
+#set silos
+        li      $t0, 1
+        sw      $t0, 0xffff00dc($zero)
+        li      $t0, 0x
+        sw      $t0, 0xffff00e4($zero)
+        sw      $t0, 0xffff00e8($zero)                 #set the first adv minibot to the addr
+
+        li      $t0, 1
+        sw      $t0, 0xffff00dc($zero)
+        li      $t0, 0x
+        sw      $t0, 0xffff00e4($zero)
+        sw      $t0, 0xffff00e8($zero)
+
+        li      $t0, 1
+        sw      $t0, 0xffff00dc($zero)
+        li      $t0, 0x
+        sw      $t0, 0xffff00e4($zero)
+        sw      $t0, 0xffff00e8($zero)                  #at least three at the spot
+
+        sw      $t0, 0xffff2000($zero)                  #BUILD SILO
+
+# set protecting minibot
+        li      $t0, 1
+        sw      $t0, 0xffff00dc($zero)
+        li      $t0, 0x
+        sw      $t0, 0xffff00e4($zero)
+        sw      $t0, 0xffff00e8($zero)
+
+
+
+
+
 infinite:
         j       infinite              # Don't remove this! If this is removed, then your code will not be graded!!!
 
