@@ -27,6 +27,8 @@ REQUEST_PUZZLE_INT_MASK = 0x800       ## Puzzle
 REQUEST_PUZZLE_ACK      = 0xffff00d8  ## Puzzle
 
 PICKUP                  = 0xffff00f4
+minibot_info:           .word 0
+kernel_location:        .word 0
 
 # Add any MMIO that you need here (see the Spimbot Documentation)
 
@@ -109,7 +111,50 @@ infinite:
 	# HAVE SPIMBOT ALWAYS PICKING UP
         li $a0, 1
         sw $a0, PICKUP($zero)
+        li      $t0, 1
+        sw      $t0, 0xffff00dc($zero)
+        la      $t1, minibot_info
+        sw      $t1, 0xffff2014($zero)         #info at the addr
+        lw      $t5, 0($t1)         #minibot count
+        li      $t2, 1
+        bge     $t5, $t2, control_minibot        #when a minibot exist
+        #j       #go back to some where 
         j       infinite              # Don't remove this! If this is removed, then your code will not be graded!!!
+
+control_minibot:
+        #la      $t0, minibot_info
+        #sw      $t0, 0xffff200c($zero)
+        #li      $s0, 0                          #i=0
+for_kernels:
+        #add     $t1, $s0, 4                     #offset of the tile
+        #add     $t2, $t0, $t1                   #addr of that tile
+        #lw      $t3, 0($t2)                     #kernal count of tile i
+        #bne     $t3, $zero, return
+        #add     $s0, $s0, 1     
+        #j	for_kernels			
+return:
+        #move    $t1, $s0                        #index of the tile of the kernel
+        li      $t1, 820
+        li      $t2, 40
+        div     $t3, $t1, $t2                   #(b,a) b in t3
+        rem     $t4, $t1, $t2                   # a in t4
+        li      $t0, 16
+        mul     $t6, $t3, $t0                     #b shift left 2 bit
+        mul     $t6, $t6, $t0
+        #mul     $t6, $t3, $t0
+        add     $t7, $t6, $t4                   #the dest of the minibot
+        sw      $t7, 0xffff00e4($zero)
+        sw      $t7, 0xffff00e8($zero)          #set the adv minibot to the addr
+        sw      $t7, 0xffff2000($zero)           #BUILD SILO
+        
+        #la      $t1, minibot_info
+        #sw      $t1, 0xffff2014($zero)          #info at the addr
+        #lw      $t1, 0($t1)                     #minibot count
+        #li      $t2, 3
+        #bge     $t1, $t2, build_silo            #when >=3 minibots go and build
+        j       infinite
+
+
 
 # The contents of this file are not graded, it exists purely as a reference solution that you can use
 
