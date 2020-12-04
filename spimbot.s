@@ -27,8 +27,10 @@ REQUEST_PUZZLE_INT_MASK = 0x800       ## Puzzle
 REQUEST_PUZZLE_ACK      = 0xffff00d8  ## Puzzle
 
 PICKUP                  = 0xffff00f4
-minibot_info:           .word 0
-kernel_location:        .word 0
+
+kernel_location:        .word 0:2000
+minibot_info:           .word 0:10
+map:        .word 0:400
 
 # Add any MMIO that you need here (see the Spimbot Documentation)
 
@@ -115,45 +117,79 @@ infinite:
         sw      $t0, 0xffff00dc($zero)
         la      $t1, minibot_info
         sw      $t1, 0xffff2014($zero)         #info at the addr
-        lw      $t5, 0($t1)         #minibot count
-        li      $t2, 1
-        bge     $t5, $t2, control_minibot        #when a minibot exist
-        #j       #go back to some where 
-        j       infinite              # Don't remove this! If this is removed, then your code will not be graded!!!
+        lw      $t8, 0($t1)                     #minibot count
+        la      $t1, map
+        sw      $t1, 0xffff00f0
+        lb      $t9, 410($t1)
+        li      $t3, 2
+        beq     $t9, $t3, control_minibot
+        li      $t2, 3
+        beq     $t8, $t2, build_silo        #when a minibot exist
+        j       control_minibot              # Don't remove this! If this is removed, then your code will not be graded!!!
+
+build_silo:
+        li $a0, 1
+        sw $a0, PICKUP($zero)
+        li      $t0, 0x00000a0a                 #addr to build the silo 1010
+        sw      $t0, 0xffff00e4($zero)          #select
+        sw      $t0, 0xffff00e8($zero)          #set the adv minibot to the addr
+        sw      $t0, 0xffff2000($zero)          #BUILD SILO
+        la      $t1, map
+        sw      $t1, 0xffff00f0
+        lb      $t9, 410($t1)
+        li      $t3, 2
+        beq     $t9, $t3, already_built
+        j	build_silo				# jump to action
+already_built:
+        li $a0, 1
+        sw $a0, PICKUP($zero)
+        j	infinite
+        
 
 control_minibot:
-        #la      $t0, minibot_info
-        #sw      $t0, 0xffff200c($zero)
-        #li      $s0, 0                          #i=0
+        li $a0, 1
+        sw $a0, PICKUP($zero)
+        la      $t1, kernel_location
+        sw      $t1, 0xffff200c($zero)
+        li      $t7, 0                          #i=0
 for_kernels:
-        #add     $t1, $s0, 4                     #offset of the tile
-        #add     $t2, $t0, $t1                   #addr of that tile
-        #lw      $t3, 0($t2)                     #kernal count of tile i
-        #bne     $t3, $zero, return
-        #add     $s0, $s0, 1     
-        #j	for_kernels			
-return:
-        #move    $t1, $s0                        #index of the tile of the kernel
-        li      $t1, 820
+        li $a0, 1
+        sw $a0, PICKUP($zero)
+        add     $t2, $t7, 4                     #offset of the tile
+        add     $t2, $t1, $t2                   #addr of that tile
+        lb      $t6, 0($t2)                     #kernal count of tile i
+        li      $t4, 4                          #num of kernels the minibot aims at
+        bge     $t6, $t4, target_find
+        add     $t7, $t7, 1     
+        j	for_kernels			
+target_find:
+        li $a0, 1
+        sw $a0, PICKUP($zero)
+        move    $t1, $t7                        #index of the tile of the kernel
         li      $t2, 40
         div     $t3, $t1, $t2                   #(b,a) b in t3
         rem     $t4, $t1, $t2                   # a in t4
         li      $t0, 16
-        mul     $t6, $t3, $t0                     #b shift left 2 bit
+        mul     $t6, $t3, $t0                    #b shift left 2 bit
         mul     $t6, $t6, $t0
-        #mul     $t6, $t3, $t0
         add     $t7, $t6, $t4                   #the dest of the minibot
         sw      $t7, 0xffff00e4($zero)
         sw      $t7, 0xffff00e8($zero)          #set the adv minibot to the addr
-        sw      $t7, 0xffff2000($zero)           #BUILD SILO
-        
-        #la      $t1, minibot_info
-        #sw      $t1, 0xffff2014($zero)          #info at the addr
-        #lw      $t1, 0($t1)                     #minibot count
-        #li      $t2, 3
-        #bge     $t1, $t2, build_silo            #when >=3 minibots go and build
+wait_until_get:
+        li $a0, 1
+        sw $a0, PICKUP($zero)
+        sw      $t7, 0xffff00e4($zero)
+        sw      $t7, 0xffff00e8($zero)          #set the adv minibot to the addr
+        la      $t1, kernel_location
+        sw      $t1, 0xffff200c($zero)          #kernel location at the addr
+        add     $t2, $t7, 4                     #offset
+        add     $t2, $t2, $t1                   #addr
+        lb      $t6, 0($t2)
+        bne     $t6, $zero, wait_until_get      #haven't get go back
+        li      $t0, 0x00000a0a
+        sw      $t0, 0xffff00e4($zero)
+        sw      $t0, 0xffff00e8($zero)          #go back to the silo
         j       infinite
-
 
 
 # The contents of this file are not graded, it exists purely as a reference solution that you can use
@@ -624,6 +660,8 @@ bonk_interrupt:
 
         li $t5, 10                              # velocity at 10
         sw $t5, VELOCITY($zero)                 # set velocity
+        li $a0, 1
+        sw $a0, PICKUP($zero)
 
         j       interrupt_dispatch      # see if other interrupts are waiting
 
