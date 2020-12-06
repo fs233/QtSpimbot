@@ -1,0 +1,11 @@
+Wanted to take advantage of the pathfinding algo of the adv. minibot. 
+Wanted to optimize the puzzle to get coins faster.
+Did not focus on main spim bot movement. Ended up making it turn an increasing angle on every bonk.
+
+Originally wanted to spawn as many adv minibots as possible, but managing all of them was difficult.
+Additionally, the puzzle optimization was not very significiant in the end.
+
+However, as long as we qualified and kept the silo in a safe enough place, we though our simpbot is competitive enough to 
+place decently well.
+
+If we had more time, we would concentrate on the puzzle more. 
