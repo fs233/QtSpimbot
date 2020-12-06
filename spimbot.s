@@ -120,23 +120,24 @@ infinite:
         lw      $t8, 0($t1)                     #minibot count
         la      $t1, map
         sw      $t1, 0xffff00f0
-        lb      $t9, 410($t1)
+        lb      $t9, 4($t1)
         li      $t3, 2
         beq     $t9, $t3, control_minibot
         li      $t2, 3
         beq     $t8, $t2, build_silo        #when a minibot exist
-        j       control_minibot              # Don't remove this! If this is removed, then your code will not be graded!!!
+        #bgt     $t8, $zero, control_minibot
+        j       infinite              # Don't remove this! If this is removed, then your code will not be graded!!!
 
 build_silo:
         li $a0, 1
         sw $a0, PICKUP($zero)
-        li      $t0, 0x00000a0a                 #addr to build the silo 1010
+        li      $t0, 0x00000004                 #addr to build the silo 1010
         sw      $t0, 0xffff00e4($zero)          #select
         sw      $t0, 0xffff00e8($zero)          #set the adv minibot to the addr
         sw      $t0, 0xffff2000($zero)          #BUILD SILO
         la      $t1, map
         sw      $t1, 0xffff00f0
-        lb      $t9, 410($t1)
+        lb      $t9, 4($t1)
         li      $t3, 2
         beq     $t9, $t3, already_built
         j	build_silo				# jump to action
@@ -186,7 +187,7 @@ wait_until_get:
         add     $t2, $t2, $t1                   #addr
         lb      $t6, 0($t2)
         bne     $t6, $zero, wait_until_get      #haven't get go back
-        li      $t0, 0x00000a0a
+        li      $t0, 0x00000004
         sw      $t0, 0xffff00e4($zero)
         sw      $t0, 0xffff00e8($zero)          #go back to the silo
         j       infinite
