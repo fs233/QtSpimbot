@@ -1,2 +1,2 @@
 # QtSpimbot
-code for qtspimbot competition
+code for Qtspimbot competition
